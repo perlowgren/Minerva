@@ -5,8 +5,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>net.spirangle.minerva</groupId>
-  <artifactId>Minerva</artifactId>
+  <artifactId>minerva-parent</artifactId>
   <version>0.1</version>
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>minerva</module>
+    <module>minerva-gdx</module>
+  </modules>
 
   <properties>
     <maven.compiler.source>8</maven.compiler.source>
@@ -14,13 +20,4 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
-
-  <dependencies>
-    <dependency>
-      <groupId>com.badlogicgames.gdx</groupId>
-      <artifactId>gdx</artifactId>
-      <version>1.10.0</version>
-    </dependency>
-  </dependencies>
-
 </project>
