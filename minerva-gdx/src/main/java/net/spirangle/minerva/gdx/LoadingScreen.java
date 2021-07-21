@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 /**
  * The LoadingScreen class handles loading assets.
  */
-public class LoadingScreen extends BasicScreen {
+public class LoadingScreen extends ScreenBase {
     private final AssetManager assets;
     private float progress = -1.0f;
     private final String backgroundFile;
@@ -18,21 +18,20 @@ public class LoadingScreen extends BasicScreen {
     private Texture bar = null;
     private final int[] data;
 
-    public LoadingScreen(BasicGame g,float z,String bg,String b,int[] d) {
-        super(g);
+    public LoadingScreen(float z,String bg,String b,int[] d) {
+        super();
         zoom = z;
-        assets = game.getAssetManager();
+        assets = GameBase.getInstance().getAssetManager();
         backgroundFile = bg;
         barFile = b;
         data = d;
-        BasicGame.log("LoadingScreen()");
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
         if(assets.update(100)) {
-            game.loadingAssetsCompleted();
+            GameBase.getInstance().loadingAssetsCompleted();
             return;
         }
 
@@ -40,18 +39,11 @@ public class LoadingScreen extends BasicScreen {
         if(p==progress) return;
         progress = p;
 
-        if(background==null &&
-           backgroundFile!=null &&
-           assets.getLoadedAssets()>0 &&
-           assets.isLoaded(backgroundFile,Texture.class))
+        if(background==null && backgroundFile!=null && assets.getLoadedAssets()>0 && assets.isLoaded(backgroundFile,Texture.class))
             background = assets.get(backgroundFile,Texture.class);
 
-        if(bar==null &&
-           barFile!=null &&
-           assets.getLoadedAssets()>1 &&
-           assets.isLoaded(barFile,Texture.class))
+        if(bar==null && barFile!=null && assets.getLoadedAssets()>1 && assets.isLoaded(barFile,Texture.class))
             bar = assets.get(barFile,Texture.class);
-
 
         if(background!=null) {
             int w = background.getWidth();
@@ -67,7 +59,6 @@ public class LoadingScreen extends BasicScreen {
             int ty = h<=viewport.height? 0 : (h-viewport.height)/2;
             int tw = w<=viewport.width? w : viewport.width;
             int th = h<=viewport.height? h : viewport.height;
-            BasicGame.log("LoadingScreen.render(vx: "+vx+", vy: "+vy+", vw: "+vw+", vh: "+vh+", tx: "+tx+", ty: "+ty+", tw: "+tw+", th: "+th+")");
             if(w<viewport.width || h<viewport.height) {
                 Gdx.gl.glClearColor(0.0f,0.0f,0.0f,1.0f);
                 Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -118,7 +109,6 @@ public class LoadingScreen extends BasicScreen {
     @Override
     public void resize(int w,int h) {
         super.resize(w,h);
-        BasicGame.log("LoadingScreen.resize(w: "+w+", h: "+h+")");
     }
 }
 

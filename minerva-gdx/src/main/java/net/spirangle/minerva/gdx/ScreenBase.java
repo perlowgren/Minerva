@@ -15,13 +15,11 @@ import net.spirangle.minerva.gdx.gui.Widget;
 /**
  * The BasicScreen class handles widgets and basic drawing.
  */
-public abstract class BasicScreen implements Screen, InputProcessor {
+public abstract class ScreenBase implements Screen, InputProcessor {
     public static final int PORTRAIT = 0;
     public static final int LANDSCAPE = 1;
 
     private static final int[] boxStyles = { 1,1,84,1 };
-
-    protected BasicGame game;
 
     /** PORTRAIT or LANDSCAPE. */
     protected int orientation = PORTRAIT;
@@ -52,25 +50,14 @@ public abstract class BasicScreen implements Screen, InputProcessor {
 
     private final Texture gui;
 
-    public BasicScreen(BasicGame g) {
-        BasicGame.log("BasicScreen()");
-
-        game = g;
-
+    public ScreenBase() {
         density = Gdx.graphics.getDensity();
-
         camera = new OrthographicCamera();
         uiCamera = new OrthographicCamera();
-
         batch = new SpriteBatch();
         renderer = new ShapeRenderer();
-
-        BasicGame.log("BasicScreen(density: "+density+")");
-
-        gui = game.getGUITexture();
-
+        gui = GameBase.getInstance().getGUITexture();
         Gdx.input.setInputProcessor(this);
-        BasicGame.log("BasicScreen(done)");
     }
 
     @Override
@@ -80,7 +67,6 @@ public abstract class BasicScreen implements Screen, InputProcessor {
 
     @Override
     public void dispose() {
-        BasicGame.log("BasicScreen.dispose()");
         batch.dispose();
         renderer.dispose();
     }
@@ -88,7 +74,6 @@ public abstract class BasicScreen implements Screen, InputProcessor {
     @Override
     public void resize(int w,int h) {
         setDisplaySize(w,h);
-        BasicGame.log("BasicScreen.resize(w: "+w+", h: "+h+" ["+viewport.width+", "+viewport.height+"])");
         camera.setToOrtho(true,viewport.width,viewport.height);
         camera.update();
         uiCamera.setToOrtho(true,display.width,display.height);
@@ -97,22 +82,18 @@ public abstract class BasicScreen implements Screen, InputProcessor {
 
     @Override
     public void show() {
-        BasicGame.log("BasicScreen.show()");
     }
 
     @Override
     public void hide() {
-        BasicGame.log("BasicScreen.hide()");
     }
 
     @Override
     public void pause() {
-        BasicGame.log("BasicScreen.pause()");
     }
 
     @Override
     public void resume() {
-        BasicGame.log("BasicScreen.resume()");
     }
 
     public void setDisplaySize(int w,int h) {

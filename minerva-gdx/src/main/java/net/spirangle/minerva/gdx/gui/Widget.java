@@ -1,8 +1,7 @@
 package net.spirangle.minerva.gdx.gui;
 
-import com.badlogic.gdx.Gdx;
 import net.spirangle.minerva.Rectangle;
-import net.spirangle.minerva.gdx.BasicScreen;
+import net.spirangle.minerva.gdx.ScreenBase;
 
 public class Widget extends Rectangle {
     public static final int T = 0;
@@ -39,7 +38,7 @@ public class Widget extends Rectangle {
     public static final int ALIGN_LEFT_BOTTOM = ALIGN_LEFT|ALIGN_BOTTOM;
     public static final int ALIGN_RIGHT_BOTTOM = ALIGN_RIGHT|ALIGN_BOTTOM;
 
-    protected BasicScreen screen = null;
+    protected ScreenBase screen = null;
     private Widget parent = null;
     private Widget prev = null;
     private Widget next = null;
@@ -87,7 +86,7 @@ public class Widget extends Rectangle {
 
     public final void setHidden(boolean b) {
         if(b) state |= HIDDEN;
-        else if(!b) state &= ~HIDDEN;
+        else state &= ~HIDDEN;
     }
 
     public final boolean isHidden() {
@@ -121,7 +120,7 @@ public class Widget extends Rectangle {
     	return (state&CLIP)!=0;
     }
 
-    public final void setScreen(BasicScreen s) {
+    public final void setScreen(ScreenBase s) {
         screen = s;
     }
 
@@ -245,19 +244,11 @@ public class Widget extends Rectangle {
         if(isHidden()) return null;
         while(w!=null) {
             while(w.last!=null && (w.last.state&(HIDDEN|DISABLED))==0) w = w.last;
-            Gdx.app.log("Spirangle","Widget.getWidget(1: [x: "+w.x+", y: "+w.y+", w: "+w.width+", h: "+w.height+"], x: "+x+", y: "+y+")");
-            if((w.state&(HIDDEN|DISABLED|VIRTUAL))==0 && w.contains(x,y)) {
-                Gdx.app.log("Spirangle","Widget.getWidget(1: [x: "+w.x+", y: "+w.y+", w: "+w.width+", h: "+w.height+"], match!)");
-                return w;
-            }
+            if((w.state&(HIDDEN|DISABLED|VIRTUAL))==0 && w.contains(x,y)) return w;
             if(w.prev!=null) w = w.prev;
             else if(w.parent!=null) {
                 for(w = w.parent; w!=null && w.prev==null; w = w.parent) {
-                    Gdx.app.log("Spirangle","Widget.getWidget(2: [x: "+w.x+", y: "+w.y+", w: "+w.width+", h: "+w.height+"], x: "+x+", y: "+y+")");
-                    if((w.state&(HIDDEN|DISABLED|VIRTUAL))==0 && w.contains(x,y)) {
-                        Gdx.app.log("Spirangle","Widget.getWidget(2: [x: "+w.x+", y: "+w.y+", w: "+w.width+", h: "+w.height+"], match!)");
-                        return w;
-                    }
+                    if((w.state&(HIDDEN|DISABLED|VIRTUAL))==0 && w.contains(x,y)) return w;
                     if(w==this) return null;
                 }
                 if(w==null) return null;
@@ -268,7 +259,6 @@ public class Widget extends Rectangle {
     }
 
     protected void calculateMinimumSize() {
-        Gdx.app.log("Spirangle","Widget.calculateMinimumSize("+id+")");
         if(first==null || (state&ARRANGE)==0) {
             minWidth = startWidth;
             minHeight = startHeight;
@@ -302,12 +292,10 @@ public class Widget extends Rectangle {
         int nx, ny, i;
         int nw = width-minWidth;
         int nh = height-minHeight;
-        Gdx.app.log("Spirangle","Widget.arrange("+id+", width: "+width+", height: "+height+", minWidth: "+minWidth+", minHeight: "+minHeight+")");
         if((state&ARRANGE_H)!=0) {
             for(w = first,nx = 0,ny = 0; w!=null; w = w.next) {
                 if((w.state&EXPAND)!=0) {
                     i = (w.next!=null? w.minWidth+(nw/n) : width-nx);
-                    Gdx.app.log("Spirangle","Widget.arrange("+w.id+", ARRANGE_H - i: "+i+")");
                     if((w.state&FILL)!=0) {
                         w.x = x+nx;
                         w.width = i;
@@ -337,7 +325,6 @@ public class Widget extends Rectangle {
             for(w = first,nx = 0,ny = 0; w!=null; w = w.next) {
                 if((w.state&EXPAND)!=0) {
                     i = (w.next!=null? w.minHeight+(nh/n) : height-ny);
-                    Gdx.app.log("Spirangle","Widget.arrange("+w.id+", ARRANGE_V - i: "+i+")");
                     if((w.state&FILL)!=0) {
                         w.y = y+ny;
                         w.height = i;
