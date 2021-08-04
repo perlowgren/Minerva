@@ -10,7 +10,7 @@
     <parent>
         <groupId>net.spirangle.minerva</groupId>
         <artifactId>minerva-parent</artifactId>
-        <version>0.1</version>
+        <version>0.2</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -27,8 +27,8 @@
         </dependency>
         <dependency>
             <groupId>net.spirangle.minerva</groupId>
-            <artifactId>minerva</artifactId>
-            <version>0.1</version>
+            <artifactId>minerva-game</artifactId>
+            <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
