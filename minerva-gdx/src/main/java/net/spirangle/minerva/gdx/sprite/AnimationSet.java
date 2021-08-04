@@ -63,7 +63,7 @@ public class AnimationSet extends Rectangle implements Sprite {
         ++index;
         if(index==anim.frames.length) index = 0;
         frame = frames[anim.frames[index]];
-        timer = (int)Math.round(anim.timers[index]*anim.speed*speed);
+        timer = Math.round(anim.timers[index]*anim.speed*speed);
         if(timer<=0) timer = 1;
     }
 

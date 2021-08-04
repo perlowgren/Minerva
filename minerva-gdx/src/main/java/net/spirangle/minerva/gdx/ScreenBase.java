@@ -57,7 +57,6 @@ public abstract class ScreenBase implements Screen, InputProcessor {
         batch = new SpriteBatch();
         renderer = new ShapeRenderer();
         gui = GameBase.getInstance().getGUITexture();
-        Gdx.input.setInputProcessor(this);
     }
 
     @Override
@@ -82,18 +81,22 @@ public abstract class ScreenBase implements Screen, InputProcessor {
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(this);
     }
 
     @Override
     public void hide() {
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override
     public void pause() {
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override
     public void resume() {
+        Gdx.input.setInputProcessor(this);
     }
 
     public void setDisplaySize(int w,int h) {

@@ -26,7 +26,7 @@ public abstract class GameBase extends Game {
         I18BUNDLE;
     }
 
-    private class AssetFile {
+    private static class AssetFile {
         final int id;
         final String name;
         final String path;
@@ -46,7 +46,7 @@ public abstract class GameBase extends Game {
     private static float fpsTimer = 0.0f;
 
     private AssetManager assets;
-    private List<AssetFile> assetFiles;
+    private final List<AssetFile> assetFiles;
     private final Map<Integer,Texture> textures;
     private final Map<Integer,BitmapFont> bitmapFonts;
     private final Map<Integer,Sound> sounds;
@@ -89,11 +89,7 @@ public abstract class GameBase extends Game {
 
     @Override
     public void create() {
-        int i;
-        String[] files;
-
         assets = new AssetManager();
-
         BitmapFontParameter fontParameter = new BitmapFontParameter();
         fontParameter.flip = true;
         for(AssetFile af : assetFiles) {
