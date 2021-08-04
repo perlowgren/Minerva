@@ -6,11 +6,12 @@
 
   <groupId>net.spirangle.minerva</groupId>
   <artifactId>minerva-parent</artifactId>
-  <version>0.1</version>
+  <version>0.2</version>
   <packaging>pom</packaging>
 
   <modules>
     <module>minerva</module>
+    <module>minerva-game</module>
     <module>minerva-gdx</module>
   </modules>
 
